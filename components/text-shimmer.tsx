@@ -1,22 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface TextShimmerProps {
   children: React.ReactNode;
   className?: string;
+  /** Change this (e.g. a hover counter) whenever you want the shimmer to play again. */
+  replayOn?: number;
 }
 
-export default function TextShimmer({ children, className }: TextShimmerProps) {
-  const [animKey, setAnimKey] = useState(0);
+export default function TextShimmer({
+  children,
+  className,
+  replayOn = 0,
+}: TextShimmerProps) {
+  const [animationKey, setAnimationKey] = useState(0);
 
-  const handleHover = () => {
-    setAnimKey((prev) => prev + 1);
-  };
+  // The shimmer already plays once when it first appears, so we only need
+  // to restart it here whenever the parent asks us to (replayOn changes).
+  useEffect(() => {
+    setAnimationKey((current) => current + 1);
+  }, [replayOn]);
 
   return (
-    <span className="inline-block select-none" onMouseEnter={handleHover}>
+    <span className="inline-block select-none">
       <style>{`
         @keyframes shimmerFluidSinglePass {
           0% {
@@ -69,7 +77,7 @@ export default function TextShimmer({ children, className }: TextShimmerProps) {
 
       <span
         id="shimmer-headline"
-        key={animKey}
+        key={animationKey}
         className={cn("shimmer-headline", className)}
       >
         {children}

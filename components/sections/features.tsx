@@ -2,6 +2,26 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
+import { motion } from "motion/react";
+
+const COLOR_VALUES: Record<string, string> = {
+  Burgundy: "#4D1821",
+  Glacier: "#E8F2FF",
+  Black: "#3C3C3C",
+  Silver: "#F7F7F7",
+
+  // "Night Sky": "#3C4042",
+  "Star White": "#FAFAFA",
+};
+
+const COLORS = Object.keys(COLOR_VALUES);
+const MATERIALS = ["Knit", "Liquid", "Suede"];
+const MATERIAL_VALUES: Record<string, string> = {
+  Knit: "#d6b28c",
+  Liquid: "#7dd3fc",
+  Suede: "#9a6b4a",
+};
+
 export interface FeatureItem {
   id?: string;
   title: string;
@@ -35,7 +55,9 @@ const DEFAULT_FEATURES: FeatureItem[] = [
     id: "colors",
     title: "Colors",
     content: (
-      <p>Colors. Carbone Black, Beige Perla, Brown Mocha and Capri Orange.</p>
+      <div>
+        <p>Colors. Carbone Black, Beige Perla, Brown Mocha and Capri Orange.</p>
+      </div>
     ),
     image:
       "https://assets.codepen.io/605876/the-faux-phone-breakdown.png?format=auto",
@@ -110,8 +132,12 @@ const COMPONENT_STYLES = `
   --speed: 0.5s;
   --width: 300px;
   --sizing: 56px;
-  --background: light-dark(hsl(240 11% 96% / 1), hsl(0 0% 40% / 0.5));
-  --hover-background: light-dark(hsl(0 0% 18% / 0.75), hsl(0 0% 48% / 0.5));
+  --background: color-mix(in oklab, Canvas 94%, currentColor 6%);
+  --hover-background: color-mix(in oklab, Canvas 88%, currentColor 12%);
+  --surface: Canvas;
+  --surface-hover: color-mix(in oklab, Canvas 92%, currentColor 8%);
+  --surface-border: color-mix(in oklab, CanvasText 18%, transparent);
+  --surface-text: CanvasText;
   --distance: 15%;
 }
 
@@ -241,7 +267,7 @@ const COMPONENT_STYLES = `
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
-  padding: 1rem 1.25rem 1rem 0.85rem;
+  padding: 0.25rem 1.25rem 0.25rem 0.85rem;
   border-radius: calc(var(--sizing) * 0.5);
   height: var(--sizing);
   min-height: var(--sizing);
@@ -274,15 +300,15 @@ const COMPONENT_STYLES = `
   border-radius: calc(var(--sizing) * 0.5);
   overflow: hidden;
   min-height: var(--sizing);
-  background: #fff;
-  border: 0.3px solid rgb(0 0 0 / 0.1);
+  background: var(--surface);
+  border: 0.1px solid var(--surface-border);
   backdrop-filter: blur(20px) saturate(180%);
-  color: #000;
+  color: var(--surface-text);
   transition: background 0.2s var(--ease);
 }
 
 .showcase-section details:hover:not([open]) {
-  background: #f5f5f5;
+  background: var(--surface-hover);
 }
 
 .showcase-section summary:marker {
@@ -329,7 +355,7 @@ const COMPONENT_STYLES = `
 .showcase-section .content a {
   text-decoration: underline;
   text-underline-offset: 3px;
-  color: #000;
+  color: inherit;
 }
 .showcase-section .content a:hover {
   color: #2563eb;
@@ -342,11 +368,11 @@ const COMPONENT_STYLES = `
   place-items: center;
   width: 36px;
   aspect-ratio: 1;
-  border: 0.5px solid rgb(0 0 0 / 0.2);
+  border: 0.5px solid var(--surface-border);
   cursor: pointer;
   padding: 0;
   border-radius: 50%;
-  background: #fff;
+  background: var(--surface);
   transition-property: opacity, background, translate, transform;
   transition-duration: 0.26s;
   transition-timing-function: var(--ease);
@@ -354,7 +380,7 @@ const COMPONENT_STYLES = `
 }
 
 .showcase-section [data-action]:hover {
-  background: #f5f5f5;
+  background: var(--surface-hover);
 }
 
 .showcase-section [data-action]::after {
@@ -365,7 +391,7 @@ const COMPONENT_STYLES = `
 
 .showcase-section [data-action] svg {
   width: 22px;
-  color: #000;
+  color: var(--surface-text);
   stroke-width: 3;
 }
 
@@ -505,6 +531,8 @@ export default function FeatureAccordionShowcase({
   theme: initialTheme = "dark",
   className = "",
 }: FeatureAccordionShowcaseProps) {
+  const [activeColor, setActiveColor] = useState<string>(COLORS[0]);
+  const [activeMaterial, setActiveMaterial] = useState<string>(MATERIALS[0]);
   const [openIndex, setOpenIndex] = useState<number | null>(defaultOpenIndex);
   const [checkingDetails, setCheckingDetails] = useState<boolean>(false);
   const [currentTheme, setCurrentTheme] = useState<"dark" | "light" | "system">(
@@ -642,9 +670,88 @@ export default function FeatureAccordionShowcase({
                       </svg>
                     )}
                     <span className="font-serif">{feature.title}</span>
+                    {feature.title === "Materials" && (
+                      <motion.span
+                        layoutId="selection-material"
+                        key={activeMaterial}
+                        className="inline-block size-6 rounded-full"
+                        style={{
+                          backgroundColor: MATERIAL_VALUES[activeMaterial],
+                        }}
+                      />
+                    )}
+                    {feature.title === "Colors" && (
+                      <motion.span
+                        layoutId="selection-color"
+                        key={activeColor}
+                        className="inline-block size-6 rounded-full"
+                        style={{ backgroundColor: COLOR_VALUES[activeColor] }}
+                      />
+                    )}
                   </summary>
                   <div className="content" id={`feature-content-${idx}`}>
                     {feature.content}
+                    {feature.title === "Materials" && (
+                      <div
+                        className="flex flex-col items-start gap-2 px-4 pb-3"
+                        role="group"
+                        aria-label="Choose a material"
+                      >
+                        {MATERIALS.map((material) => {
+                          const isActive = activeMaterial === material;
+                          return (
+                            <button
+                              type="button"
+                              key={material}
+                              aria-label={`Select ${material}`}
+                              title={material}
+                              aria-pressed={isActive}
+                              className="inline-flex items-center gap-2 rounded-full px-1 py-0.5 transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current cursor-pointer"
+                              onClick={() => setActiveMaterial(material)}
+                            >
+                              <span
+                                aria-hidden="true"
+                                className="size-7 rounded-full"
+                                style={{
+                                  backgroundColor: MATERIAL_VALUES[material],
+                                  boxShadow: isActive
+                                    ? "0 0 0 2px Canvas, 0 0 0 4px CanvasText"
+                                    : undefined,
+                                }}
+                              />
+                              <span>{material}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+                    {feature.title === "Colors" && (
+                      <div
+                        className="flex items-center gap-3 px-4 pb-3"
+                        role="group"
+                        aria-label="Choose a color"
+                      >
+                        {COLORS.map((color) => {
+                          const isActive = activeColor === color;
+                          return (
+                            <button
+                              type="button"
+                              key={color}
+                              aria-label={`Select ${color}`}
+                              aria-pressed={isActive}
+                              className="size-7 rounded-full border-2 border-transparent transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+                              style={{
+                                backgroundColor: COLOR_VALUES[color],
+                                boxShadow: isActive
+                                  ? "0 0 0 2px Canvas, 0 0 0 4px CanvasText"
+                                  : undefined,
+                              }}
+                              onClick={() => setActiveColor(color)}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </details>
               );

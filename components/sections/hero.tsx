@@ -7,15 +7,19 @@ export default function Hero() {
   const [timesHovered, setTimesHovered] = useState(0);
 
   return (
-    <div>
+    <div className="w-full p-8 flex flex-col items-center justify-center gap-1">
       <h1
         onMouseEnter={() => setTimesHovered((count) => count + 1)}
-        className="group font-serif tracking-tight leading-[1.1] text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-center"
+        className="group font-serif tracking-tight leading-[1.1] text-6xl text-center"
       >
         Your personal
         <br />
         <TextShimmer replayOn={timesHovered}>intelligence</TextShimmer>
       </h1>
+
+      <p className="text-center mt-4 text-lg max-w-sm mx-auto col text-zinc-700 dark:text-zinc-300">
+        Discover the power of your personal intelligence with Persona.
+      </p>
     </div>
   );
 }

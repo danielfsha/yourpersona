@@ -8,10 +8,10 @@ export default function Footer() {
   const [timesHovered, setTimesHovered] = useState(0);
 
   return (
-    <div className="w-full p-2 lg:p-8 flex items-center justify-center">
+    <div className="w-full p-1 flex items-center justify-center">
       <h1
         onMouseEnter={() => setTimesHovered((count) => count + 1)}
-        className="group font-serif tracking-tight leading-[1.1] text-[270px] text-center font-thin flex items-center justify-center"
+        className="group font-serif tracking-tight leading-none text-[270px] text-center font-thin flex items-center justify-center"
       >
         <Logo className="mr-12 size-[200px]" />
         <TextShimmer replayOn={timesHovered}>Persona</TextShimmer>

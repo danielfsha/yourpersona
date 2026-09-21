@@ -20,74 +20,70 @@ export interface FeatureAccordionShowcaseProps {
 
 const DEFAULT_FEATURES: FeatureItem[] = [
   {
-    id: "details-summary",
-    title: "Details & Summary",
+    id: "materials",
+    title: "Materials",
     content: (
       <p>
-        A built-in web platform disclosure, accessible by default — no
-        JavaScript required.
+        Materials. Knit for every day, Liquid for the gym and the rain, Suede
+        for dinner.
       </p>
     ),
     image:
       "https://assets.codepen.io/605876/the-faux-phone-closeup.png?format=auto",
   },
   {
-    id: "smooth-height",
-    title: "Smooth Height",
+    id: "colors",
+    title: "Colors",
     content: (
-      <p>
-        Apply interpolate-size: allow-keywords to create smooth auto-to-open
-        transitions on height/block-size, zero hacks.
-      </p>
+      <p>Colors. Carbone Black, Beige Perla, Brown Mocha and Capri Orange.</p>
     ),
     image:
       "https://assets.codepen.io/605876/the-faux-phone-breakdown.png?format=auto",
   },
   {
-    id: "timings",
-    title: "Timings",
+    id: "brain",
+    title: "Brain",
     content: (
-      <p>Mess with the timings, use linear() to get that little bounce.</p>
+      <p>
+        The brain. It hears you, understands what you said, and hands the task
+        to your Persona in the time it takes t
+      </p>
     ),
     image:
       "https://assets.codepen.io/605876/the-faux-phone-parallax.png?format=auto",
   },
   {
-    id: "progressive",
-    title: "Progressive",
+    id: "voice",
+    title: "Voice",
     content: (
       <p>
-        Start with plain details/summary markup using [name]. Enhance with
-        interpolate-size: allow-keywords. Then add some scripting for the
-        buttons and to switch motion styles.
+        Speak. Listen. Either way. Two mics hear a whisper across the room; a
+        speaker answers out loud. Pair your headphones and it moves to your ears
+        without a tap.
       </p>
     ),
     image:
       "https://assets.codepen.io/605876/the-faux-phone-lion-king.png?format=auto",
   },
   {
-    id: "follow-more",
-    title: "Follow for more",
+    id: "ring",
+    title: "Ring",
     content: (
       <p>
-        You can find me on{" "}
-        <a
-          aria-label="Follow Jhey"
-          href="https://x.com/intent/follow?screen_name=jh3yy"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          X
-        </a>{" "}
-        or consider signing up my{" "}
-        <a
-          href="https://craftofui.dev/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          newsletter
-        </a>
-        .
+        One ring of light. It tells you where your task is: listening, working,
+        done. No screen, no notification, no looking down.
+      </p>
+    ),
+    image:
+      "https://assets.codepen.io/605876/the-faux-phone-camera-shot.png?format=auto",
+  },
+  {
+    id: "magnetic-snap",
+    title: "Magnetic Snap",
+    content: (
+      <p>
+        Magnetic snap. Closes one-handed and stays closed through a workout.
+        Pull, and it lets go. No buckle, no pin.
       </p>
     ),
     image:
@@ -114,7 +110,7 @@ const COMPONENT_STYLES = `
   --speed: 0.5s;
   --width: 300px;
   --sizing: 56px;
-  --background: light-dark(hsl(0 0% 10% / 0.75), hsl(0 0% 40% / 0.5));
+  --background: light-dark(hsl(0 0% 10% / 0.45), hsl(0 0% 40% / 0.5));
   --hover-background: light-dark(hsl(0 0% 18% / 0.75), hsl(0 0% 48% / 0.5));
   --distance: 15%;
 }
@@ -152,7 +148,8 @@ const COMPONENT_STYLES = `
   --from-y: 75%;
 }
 .showcase-section details:nth-of-type(4),
-.showcase-section details:nth-of-type(5) {
+.showcase-section details:nth-of-type(5),
+.showcase-section details:nth-of-type(6) {
   --from-y: -75%;
 }
 .showcase-section details:nth-of-type(2),
@@ -163,10 +160,14 @@ const COMPONENT_STYLES = `
 .showcase-section details:nth-of-type(5) {
   --index: 2;
 }
+.showcase-section details:nth-of-type(6) {
+  --index: 3;
+}
 .showcase-section details:nth-of-type(1),
 .showcase-section details:nth-of-type(2),
 .showcase-section details:nth-of-type(4),
-.showcase-section details:nth-of-type(5) {
+.showcase-section details:nth-of-type(5),
+.showcase-section details:nth-of-type(6) {
   --from-scale: 1;
   --from-x: 35%;
   animation:
@@ -188,8 +189,9 @@ const COMPONENT_STYLES = `
   overflow: hidden;
   max-width: calc(100vw - 2rem);
   width: 800px;
-  border-radius: 1rem;
+  border-radius: 2rem;
   container-type: inline-size;
+  background: var(--background);
 }
 
 .showcase-section .column:first-of-type {
@@ -434,7 +436,8 @@ const COMPONENT_STYLES = `
 .showcase-section:has(details:nth-of-type(2)[open]) .column:last-of-type .img-block:nth-of-type(3),
 .showcase-section:has(details:nth-of-type(3)[open]) .column:last-of-type .img-block:nth-of-type(4),
 .showcase-section:has(details:nth-of-type(4)[open]) .column:last-of-type .img-block:nth-of-type(5),
-.showcase-section:has(details:nth-of-type(5)[open]) .column:last-of-type .img-block:nth-of-type(6) {
+.showcase-section:has(details:nth-of-type(5)[open]) .column:last-of-type .img-block:nth-of-type(6),
+.showcase-section:has(details:nth-of-type(6)[open]) .column:last-of-type .img-block:nth-of-type(7) {
   translate: var(--distance) 0;
   z-index: 2;
 }
@@ -443,7 +446,8 @@ const COMPONENT_STYLES = `
 .showcase-section:has(details:nth-of-type(2)[open]) .column:last-of-type .img-block:nth-of-type(3) .img-wrapper,
 .showcase-section:has(details:nth-of-type(3)[open]) .column:last-of-type .img-block:nth-of-type(4) .img-wrapper,
 .showcase-section:has(details:nth-of-type(4)[open]) .column:last-of-type .img-block:nth-of-type(5) .img-wrapper,
-.showcase-section:has(details:nth-of-type(5)[open]) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper {
+.showcase-section:has(details:nth-of-type(5)[open]) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper,
+.showcase-section:has(details:nth-of-type(6)[open]) .column:last-of-type .img-block:nth-of-type(7) .img-wrapper {
   transform: translateX(calc(var(--distance) * -1)); 
   transition-delay: calc(var(--speed) * 0.2);
 }
@@ -461,7 +465,8 @@ const COMPONENT_STYLES = `
 .showcase-section:not(:has(details:nth-of-type(2)[open])) .column:last-of-type .img-block:nth-of-type(3) .img-wrapper,
 .showcase-section:not(:has(details:nth-of-type(3)[open])) .column:last-of-type .img-block:nth-of-type(4) .img-wrapper,
 .showcase-section:not(:has(details:nth-of-type(4)[open])) .column:last-of-type .img-block:nth-of-type(5) .img-wrapper,
-.showcase-section:not(:has(details:nth-of-type(5)[open])) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper {
+.showcase-section:not(:has(details:nth-of-type(5)[open])) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper,
+.showcase-section:not(:has(details:nth-of-type(6)[open])) .column:last-of-type .img-block:nth-of-type(7) .img-wrapper {
   transition-property: translate, opacity, scale;
   transition-timing-function: ease-in, ease-out, ease-in;
   translate: 0 0;
@@ -481,7 +486,8 @@ const COMPONENT_STYLES = `
 .showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(2)[open])) .column:last-of-type .img-block:nth-of-type(3) .img-wrapper,
 .showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(3)[open])) .column:last-of-type .img-block:nth-of-type(4) .img-wrapper,
 .showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(4)[open])) .column:last-of-type .img-block:nth-of-type(5) .img-wrapper,
-.showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(5)[open])) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper {
+.showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(5)[open])) .column:last-of-type .img-block:nth-of-type(6) .img-wrapper,
+.showcase-section[data-checking-details="true"]:not(:has(details:nth-of-type(6)[open])) .column:last-of-type .img-block:nth-of-type(7) .img-wrapper {
   transform-origin: 50% 100%;
   translate: calc(var(--distance) * -1) 0;
 }

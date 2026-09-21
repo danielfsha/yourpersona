@@ -7,7 +7,7 @@ export default function Hero() {
   const [timesHovered, setTimesHovered] = useState(0);
 
   return (
-    <div className="w-full p-8 flex flex-col items-center justify-center gap-1">
+    <div className="w-full p-8 flex flex-col items-center justify-center gap-1  ">
       <h1
         onMouseEnter={() => setTimesHovered((count) => count + 1)}
         className="group font-serif tracking-tight leading-[1.1] text-6xl text-center"

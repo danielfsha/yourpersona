@@ -110,7 +110,7 @@ const COMPONENT_STYLES = `
   --speed: 0.5s;
   --width: 300px;
   --sizing: 56px;
-  --background: light-dark(hsl(0 0% 10% / 0.45), hsl(0 0% 40% / 0.5));
+  --background: light-dark(hsl(240 11% 96% / 1), hsl(0 0% 40% / 0.5));
   --hover-background: light-dark(hsl(0 0% 18% / 0.75), hsl(0 0% 48% / 0.5));
   --distance: 15%;
 }
@@ -178,17 +178,15 @@ const COMPONENT_STYLES = `
 }
 
 .showcase-section {
-  margin-block: 2rem;
   display: flex;
   place-items: center;
-  gap: 1rem;
   position: relative;
   min-height: 500px;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 2.6;
   justify-content: flex-start;
   overflow: hidden;
   max-width: calc(100vw - 2rem);
-  width: 800px;
+  width: 1000px;
   border-radius: 2rem;
   container-type: inline-size;
   background: var(--background);
@@ -243,7 +241,7 @@ const COMPONENT_STYLES = `
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1rem 1.25rem 1rem 0.85rem;
   border-radius: calc(var(--sizing) * 0.5);
   height: var(--sizing);
   min-height: var(--sizing);
@@ -276,14 +274,15 @@ const COMPONENT_STYLES = `
   border-radius: calc(var(--sizing) * 0.5);
   overflow: hidden;
   min-height: var(--sizing);
-  background: var(--background);
+  background: #fff;
+  border: 0.3px solid rgb(0 0 0 / 0.1);
   backdrop-filter: blur(20px) saturate(180%);
-  color: #fff;
+  color: #000;
   transition: background 0.2s var(--ease);
 }
 
 .showcase-section details:hover:not([open]) {
-  background: var(--hover-background);
+  background: #f5f5f5;
 }
 
 .showcase-section summary:marker {
@@ -323,17 +322,17 @@ const COMPONENT_STYLES = `
 .showcase-section .content p {
   margin: 0;
   width: var(--width);
-  padding: 1.5rem;
+  padding: 1rem 1.25rem;
   display: inline-block;
 }
 
 .showcase-section .content a {
   text-decoration: underline;
   text-underline-offset: 3px;
-  color: #fff;
+  color: #000;
 }
 .showcase-section .content a:hover {
-  color: #93c5fd;
+  color: #2563eb;
 }
 
 /* Action Controls */
@@ -343,11 +342,11 @@ const COMPONENT_STYLES = `
   place-items: center;
   width: 36px;
   aspect-ratio: 1;
-  border: 0;
+  border: 0.5px solid rgb(0 0 0 / 0.2);
   cursor: pointer;
   padding: 0;
   border-radius: 50%;
-  background: var(--background);
+  background: #fff;
   transition-property: opacity, background, translate, transform;
   transition-duration: 0.26s;
   transition-timing-function: var(--ease);
@@ -355,7 +354,7 @@ const COMPONENT_STYLES = `
 }
 
 .showcase-section [data-action]:hover {
-  background: var(--hover-background);
+  background: #f5f5f5;
 }
 
 .showcase-section [data-action]::after {
@@ -366,7 +365,7 @@ const COMPONENT_STYLES = `
 
 .showcase-section [data-action] svg {
   width: 22px;
-  color: #fff;
+  color: #000;
   stroke-width: 3;
 }
 
@@ -642,7 +641,7 @@ export default function FeatureAccordionShowcase({
                         />
                       </svg>
                     )}
-                    <span>{feature.title}</span>
+                    <span className="font-serif">{feature.title}</span>
                   </summary>
                   <div className="content" id={`feature-content-${idx}`}>
                     {feature.content}
